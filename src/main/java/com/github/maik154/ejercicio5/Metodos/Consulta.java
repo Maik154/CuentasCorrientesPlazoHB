@@ -1,8 +1,5 @@
 package com.github.maik154.ejercicio5.Metodos;
 
-import com.github.maik154.ejercicio5.dao.CuentaDAO;
-import com.github.maik154.ejercicio5.Pojos.*;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;

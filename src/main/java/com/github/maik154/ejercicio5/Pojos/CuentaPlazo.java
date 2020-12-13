@@ -1,13 +1,13 @@
 package com.github.maik154.ejercicio5.Pojos;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 public class CuentaPlazo extends Cuenta {
     private float intereses;
-    private Date fechaVencimiento;
+    private LocalDate fechaVencimiento;
     private long depositoPlazo;
 
-    public CuentaPlazo(String sucursal, String numero, float intereses, long depositoPlazo, Date fechaVencimiento) {
+    public CuentaPlazo(String sucursal, String numero, float intereses, long depositoPlazo, LocalDate fechaVencimiento) {
         super(numero, sucursal);
         this.intereses = intereses;
         this.depositoPlazo = depositoPlazo;
@@ -30,11 +30,11 @@ public class CuentaPlazo extends Cuenta {
         this.depositoPlazo = depositoPlazo;
     }
 
-    public Date getFechaVencimiento() {
+    public LocalDate getFechaVencimiento() {
         return fechaVencimiento;
     }
 
-    public void setFechaVencimiento(Date fechaVencimiento) {
+    public void setFechaVencimiento(LocalDate fechaVencimiento) {
         this.fechaVencimiento = fechaVencimiento;
     }
 }

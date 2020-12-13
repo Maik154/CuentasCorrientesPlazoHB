@@ -12,7 +12,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         int op;
         do {
-            op = Menu.menuPrincipal2(sc);
+            op = Menu.menuPrincipal(sc);
             switch (op) {
                 case 1:
                     Alta.añadirCliente(sc);
