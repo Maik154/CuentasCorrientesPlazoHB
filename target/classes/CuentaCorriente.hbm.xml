@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.github.maik154.ejercicio5.Pojos">
+    <joined-subclass name="CuentaCorriente" table="CUENTA_CORRIENTE">
+        <key column="ID"/>
+        <property name="saldoActual" column="SALDO_ACTUAL"/>
+        <set name="Movimiento" table="MOVIMIENTO" inverse="true" lazy="false" cascade="all">
+            <!--TODO probar el all también aquí -->
+            <key column="CuentaCorriente" on-delete="cascade"/>
+            <!-- TODO aquí también probar el puto cascade de los cojones-->
+            <one-to-many class="Movimiento"/>
+        </set>
+    </joined-subclass>
+</hibernate-mapping>
