@@ -6,12 +6,17 @@ public class CuentaPlazo extends Cuenta {
     private float intereses;
     private LocalDate fechaVencimiento;
     private long depositoPlazo;
+    private int id;
 
     public CuentaPlazo(String sucursal, String numero, float intereses, long depositoPlazo, LocalDate fechaVencimiento) {
         super(numero, sucursal);
         this.intereses = intereses;
         this.depositoPlazo = depositoPlazo;
         this.fechaVencimiento = fechaVencimiento;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public float getIntereses() {

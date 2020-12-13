@@ -14,11 +14,12 @@ public class Menu {
                 5 - Modificar intereses de una cuenta a plazo
                 6 - Modificar dirección de un cliente       
                 7 - Borrar cuenta de un cliente             
-                8 - Consultar cliente por dni
+                8 - Consultar cuentas de un cliente por dni
                 9 - Consultar movimientos de una cuenta en una fecha 
                 """);
         return Integer.parseInt(sc.nextLine());
     }
+
 
     public static int menuCliente(Scanner sc) {
         int op = 0;

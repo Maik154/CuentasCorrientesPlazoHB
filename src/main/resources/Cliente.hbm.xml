@@ -9,6 +9,9 @@
         <property name="dni" column="DNI" not-null="true" unique="true"/>
         <property name="nombre" column="NOMBRE" not-null="true"/>
         <property name="direccion" column="DIRECCION"/>
-
+        <set name="cuentas" table="CLIENTE_CUENTA" lazy="false" cascade="all">
+            <key column="CLIENTE_ID"/>
+            <many-to-many class="Cuenta" column="CUENTA_ID"/>
+        </set>
     </class>
 </hibernate-mapping>

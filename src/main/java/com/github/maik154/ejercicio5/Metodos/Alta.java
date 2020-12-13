@@ -5,10 +5,12 @@ import com.github.maik154.ejercicio5.Pojos.CuentaCorriente;
 import com.github.maik154.ejercicio5.Pojos.CuentaPlazo;
 import com.github.maik154.ejercicio5.Pojos.Movimiento;
 import com.github.maik154.ejercicio5.dao.ClienteDAO;
+import com.github.maik154.ejercicio5.dao.CuentaCorrienteDAO;
 import com.github.maik154.ejercicio5.dao.CuentaPlazoDAO;
 import com.github.maik154.ejercicio5.dao.MovimientoDAO;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Scanner;
 
 public class Alta {
@@ -25,17 +27,42 @@ public class Alta {
     }
 
     public static void añadirMovimiento(Scanner sc) {
+        System.out.println("Dame dni del cliente: ");
+        String dni = sc.nextLine();
         System.out.println("Dame número de cuenta corriente: ");
         String numero = sc.nextLine();
-        CuentaCorriente cuentaCorriente = CuentaPlazoDAO.buscarCuentaCorriente(numero);
-        // CuentaCorriente cuentaCorriente = Busqueda.buscarCuentaCorriente(cuentas, numero);
-        CuentaPlazoDAO.añadirCuentaCorrienteHB(cuentaCorriente);
-        if (cuentaCorriente != null) {
-            System.out.println("Dame cantidad del movimiento: ");
-            float cantidad = Float.parseFloat(sc.nextLine());
-            MovimientoDAO.añadirMovimientoHB(new Movimiento(numero, cantidad));
+        Cliente cliente = ClienteDAO.buscarPorDni(dni);
+        CuentaCorriente cuentaCorriente = CuentaCorrienteDAO.buscarPorNumero(numero);
+        if (cuentaCorriente != null && cliente != null) {
+            System.out.println("Quieres ingresar o retirar?" +
+                    "\nI = Ingresar" +
+                    "\nR = Retirar");
+            char op = sc.nextLine().charAt(0);
+            if (op == 'I') {
+                System.out.println("Dame cantidad del movimiento: ");
+                float cantidad = Float.parseFloat(sc.nextLine());
+                Movimiento movimiento = new Movimiento(cuentaCorriente, cliente, cantidad, LocalDate.now(), LocalTime.now(), op);
+                MovimientoDAO.guardar(movimiento);
+                cuentaCorriente.setSaldoActual(cuentaCorriente.getSaldoActual() + cantidad);
+                cuentaCorriente.addMovimiento(movimiento);
+                CuentaCorrienteDAO.actualizar(cuentaCorriente);
+            } else if (op == 'R') {
+                System.out.println("Dame cantidad del movimiento: ");
+                float cantidad = Float.parseFloat(sc.nextLine());
+                Movimiento movimiento = new Movimiento(cuentaCorriente, cliente, cantidad, LocalDate.now(), LocalTime.now(), op);
+                MovimientoDAO.guardar(movimiento);
+                if (cuentaCorriente.getSaldoActual() > cantidad) {
+                    cuentaCorriente.setSaldoActual(cuentaCorriente.getSaldoActual() - cantidad);
+                    MovimientoDAO.guardar(movimiento);
+                    cuentaCorriente.addMovimiento(movimiento);
+                    CuentaCorrienteDAO.actualizar(cuentaCorriente);
+                } else {
+                    System.out.println("jaja bro eres pobre");
+                }
+            }
+
         } else {
-            System.out.println("esa cuenta no existe.");
+            System.out.println("La cuenta o el cliente no existen.");
         }
     }
 
@@ -72,6 +99,8 @@ public class Alta {
                         cliente.addCuenta(cuenta);
                         CuentaPlazoDAO.guardar(cuenta);
                         ClienteDAO.actualizar(cliente);
+                    } else {
+                        System.out.println("El cliente no existe.");
                     }
                 } else if (op == 2) {
                     Cliente cliente = añadirCliente(sc);
@@ -100,19 +129,28 @@ public class Alta {
             int op = Menu.menuCliente(sc);
             Cliente cliente;
             if (op == 1) {
-                ClienteDAO.buscarTodos();
                 System.out.println("Dame dni");
                 String dni = sc.nextLine();
                 cliente = ClienteDAO.buscarPorDni(dni);
-                while (cliente == null) {
-                    cliente = ClienteDAO.buscarPorDni(dni);
+                if (cliente != null) {
+                    CuentaCorriente cuenta = new CuentaCorriente(numero, sucursal, saldoActual);
+                    cuenta.addCliente(cliente);
+                    cliente.addCuenta(cuenta);
+                    CuentaCorrienteDAO.guardar(cuenta);
+                    ClienteDAO.actualizar(cliente);
+                } else {
+                    System.out.println("El cliente no existe.");
                 }
+            } else if (op == 2) {
+                cliente = añadirCliente(sc);
+                CuentaCorriente cuenta = new CuentaCorriente(numero, sucursal, saldoActual);
+                cuenta.addCliente(cliente);
+                cliente.addCuenta(cuenta);
+                CuentaCorrienteDAO.guardar(cuenta);
+                ClienteDAO.actualizar(cliente);
             } else {
-                cliente = añadirCliente(clientes);
-                // todo no entiendo este añadir cliente
-
+                System.out.println("Opción inválida.");
             }
-            CuentaPlazoDAO.añadirCuentaHB(new CuentaCorriente(numero, sucursal, saldoActual));
         } else {
             System.out.println("Este número de cuenta ya existe");
         }

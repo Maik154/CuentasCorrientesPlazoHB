@@ -8,6 +8,7 @@ public class Cliente {
     private String nombre;
     private String direccion;
     private Set<Cuenta> cuentas;
+    private int id;
 
     public Cliente() {
     }
@@ -16,6 +17,10 @@ public class Cliente {
         this.dni = dni;
         this.nombre = nombre;
         this.direccion = direccion;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getDni() {

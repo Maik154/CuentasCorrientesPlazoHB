@@ -6,10 +6,15 @@ import java.util.Set;
 public class CuentaCorriente extends Cuenta {
     private double saldoActual;
     private Set<Movimiento> movimientos;
+    private int id;
 
     public CuentaCorriente(String numero, String sucursal, double saldoActual) {
         super(numero, sucursal);
         this.saldoActual = saldoActual;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public double getSaldoActual() {

@@ -7,10 +7,15 @@ public abstract class Cuenta {
     private String numero;
     private String sucursal;
     private Set<Cliente> clientes;
+    private int id;
 
     public Cuenta(String numero, String sucursal) {
         this.numero = numero;
         this.sucursal = sucursal;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getNumero() {

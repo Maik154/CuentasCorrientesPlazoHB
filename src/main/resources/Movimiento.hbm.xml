@@ -2,12 +2,15 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.github.maik154.ejercicio5.Pojos">
-    <class>
+    <class name="Movimiento" table="MOVIMIENTO">
         <composite-id>
-            <key-many-to-one name="numeroCuenta" column="NUMERO_CUENTA" class="Cuenta"/>
-            <key-property name="fecha" column="FECHA"/>
-            <key-property name="hora" column="HORA"/>
+            <key-many-to-one name="cuentaCorriente" column="NUMERO_CUENTA" class="CuentaCorriente"/>
+            <key-many-to-one name="fechaOperacion" column="FECHA_OPERACION"/>
+            <key-many-to-one name="hora" column="HORA"/>
         </composite-id>
+        <property name="cliente" column="ID_CLIENTE"/>
+        <property name="cantidad" column="CANTIDAD"/>
+        <property name="operacion" column="OPERACION"/>
     </class>
 
 </hibernate-mapping>

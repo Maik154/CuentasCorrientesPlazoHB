@@ -47,4 +47,12 @@ public class CuentaCorrienteDAO {
             session.getTransaction().commit();
         }
     }
+
+    public static void actualizar(CuentaCorriente cuentaCorriente) {
+        try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
+            session.beginTransaction();
+            session.merge(cuentaCorriente);
+            session.getTransaction().commit();
+        }
+    }
 }

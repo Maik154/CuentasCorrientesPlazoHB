@@ -1,9 +1,6 @@
 package com.github.maik154.ejercicio5;
 
-import com.github.maik154.ejercicio5.Metodos.Alta;
-import com.github.maik154.ejercicio5.Metodos.Baja;
-import com.github.maik154.ejercicio5.Metodos.Menu;
-import com.github.maik154.ejercicio5.Metodos.Modificacion;
+import com.github.maik154.ejercicio5.Metodos.*;
 
 import java.util.Scanner;
 
@@ -24,7 +21,6 @@ public class Main {
                     Baja.borrarCuentaPlazo(sc);
                     break;
                 case 4:
-                    //Añadir movimiento
                     Alta.añadirMovimiento(sc);
                     break;
                 case 5:
@@ -37,7 +33,7 @@ public class Main {
                     //Borrar cuenta de un cliente
                     break;
                 case 8:
-//Consultar cliente por dni
+                    Consulta.cuentasDeCliente(sc);
                     break;
                 case 9:
 //Consultar todos los movimientos de una cuenta de un día
@@ -48,7 +44,7 @@ public class Main {
                 default:
                     System.out.println("Opción inválida.");
             }
-            //todo Baja = done Alta = undone
+            //todo Baja = undone
 
         } while (op != 8);
     }

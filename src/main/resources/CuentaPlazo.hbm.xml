@@ -2,9 +2,11 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.github.maik154.ejercicio5.Pojos">
-    <joined-subclass>
+    <joined-subclass name="CuentaPlazo" table="CUENTA_PLAZO">
         <key column="ID"/>
         <property name="intereses" column="INTERESES"/>
         <property name="depositoPlazo" column="DEPOSITO_PLAZO"/>
+        <property name="fechaVencimiento" column="FECHA_VENCIMIENTO"/>
+
     </joined-subclass>
 </hibernate-mapping>

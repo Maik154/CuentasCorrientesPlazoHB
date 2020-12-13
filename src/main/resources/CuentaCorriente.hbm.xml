@@ -5,9 +5,11 @@
     <joined-subclass name="CuentaCorriente" table="CUENTA_CORRIENTE">
         <key column="ID"/>
         <property name="saldoActual" column="SALDO_ACTUAL"/>
-        <set name="Movimiento" table="MOVIMIENTO" inverse="true" lazy="false" cascade="all">
+        <set name="movimientos" table="MOVIMIENTO" inverse="true" lazy="false" cascade="all">
             <!--TODO probar el all también aquí -->
-            <key column="CuentaCorriente" on-delete="cascade"/>
+            <key column="NUMERO_CORRIENTE" on-delete="cascade"/>
+<!--            <key column="FECHA_OPERACION"/>-->
+<!--            <key column="HORA"/>-->
             <!-- TODO aquí también probar el puto cascade de los cojones-->
             <one-to-many class="Movimiento"/>
         </set>

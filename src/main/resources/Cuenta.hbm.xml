@@ -4,15 +4,15 @@
 <hibernate-mapping package="com.github.maik154.ejercicio5.Pojos">
     <class name="Cuenta" table="CUENTA">
         <id name="id" column="ID">
-            <generator class="increment"></generator>
+            <generator class="increment"/>
         </id>
         <property name="numero" column="NUMERO" not-null="true" unique="true"/>
         <property name="sucursal" column="SUCURSAL"/>
-        <set name="clientes" table="CLIENTES" lazy="false" cascade="all">
+        <set name="clientes" table="CLIENTE_CUENTA" inverse="true" cascade="all">
             <!--TODO Comprobar si el all funciona
               cascade = "none, save-update, delete, all"-->
-            <key column="ID"/>
-            <many-to-many class="Cliente" column="ID"/>
+            <key column="CUENTA_ID"/>
+            <many-to-many class="Cliente" column="CLIENTE_ID"/>
         </set>
     </class>
 </hibernate-mapping>

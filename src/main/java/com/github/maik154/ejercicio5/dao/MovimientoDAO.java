@@ -13,7 +13,7 @@ public class MovimientoDAO {
     private MovimientoDAO() {
     }
 
-    public static void añadirMovimientoHB(Movimiento movimiento) {
+    public static void guardar(Movimiento movimiento) {
         try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
             session.beginTransaction();
             session.save(movimiento);
@@ -21,7 +21,7 @@ public class MovimientoDAO {
         }
     }
 
-    public static void borrarMovimientoHB(Movimiento movimiento) {
+    public static void borrar(Movimiento movimiento) {
         try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
             session.beginTransaction();
             session.delete(movimiento);

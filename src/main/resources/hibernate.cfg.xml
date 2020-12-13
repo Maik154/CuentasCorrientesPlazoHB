@@ -14,8 +14,9 @@
         <property name="hbm2ddl.auto">create</property>
 
         <mapping resource="Cliente.hbm.xml"/>
-        <mapping resource=""/>
-        <mapping resource=""/>
-        <mapping resource=""/>
+        <mapping resource="Cuenta.hbm.xml"/>
+        <mapping resource="CuentaCorriente.hbm.xml"/>
+        <mapping resource="CuentaPlazo.hbm.xml"/>
+        <mapping resource="Movimiento.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>
