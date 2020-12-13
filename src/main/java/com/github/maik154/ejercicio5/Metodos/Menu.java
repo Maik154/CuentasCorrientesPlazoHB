@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Menu {
 
-    public static int menuPrincipal2(Scanner sc) {
+    public static int menuPrincipal(Scanner sc) {
         System.out.println("""
                 Menú principal: --------------------
                 1 - Añadir cliente
@@ -18,19 +18,6 @@ public class Menu {
                 9 - Consultar movimientos de una cuenta en una fecha 
                 """);
         return Integer.parseInt(sc.nextLine());
-    }
-
-    public static int menuPrincipal(Scanner sc) {
-        int op;
-        do {
-            System.out.println("1 Añadir\n" +
-                    "2 Añadir movimientos\n" +
-                    "4 Modificar dirección\n" +
-                    "5 Consultas\n" +
-                    "6 salir");
-            op = sc.nextInt();
-        } while (op < 1 || op > 6);
-        return op;
     }
 
     public static int menuCliente(Scanner sc) {

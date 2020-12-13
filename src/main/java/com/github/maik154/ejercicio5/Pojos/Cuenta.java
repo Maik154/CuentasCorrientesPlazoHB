@@ -40,5 +40,4 @@ public abstract class Cuenta {
     public void addCliente(Cliente cliente) {
         this.clientes.add(cliente);
     }
-
 }

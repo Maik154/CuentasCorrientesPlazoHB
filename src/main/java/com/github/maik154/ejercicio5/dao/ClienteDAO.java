@@ -5,9 +5,6 @@ import com.github.maik154.ejercicio5.Util.SessionFactoryUtil;
 import org.hibernate.Session;
 
 import javax.persistence.NoResultException;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,7 +12,16 @@ public class ClienteDAO {
     private ClienteDAO() {
     }
 
-    public static void añadirClienteHB(Cliente cliente) {
+    public static Set<Cliente> buscarTodos() {
+        Set<Cliente> clientes = new HashSet<>();
+        try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
+            // JPQL
+            clientes.addAll(session.createQuery("SELECT c FROM Cliente c", Cliente.class).getResultList());
+        }
+        return clientes;
+    }
+
+    public static void guardar(Cliente cliente) {
         try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
             session.beginTransaction();
             session.save(cliente);
@@ -23,43 +29,26 @@ public class ClienteDAO {
         }
     }
 
-    public static Set<Cliente> consultarClientesHb() {
-        Set<Cliente> clientes;
+    public static Cliente buscarPorDni(String dni) {
+        Cliente cliente = null;
         try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
-            session.beginTransaction();
-            CriteriaBuilder cb = session.getCriteriaBuilder();
-            CriteriaQuery<Cliente> cq = cb.createQuery(Cliente.class);
-            cq.from(Cliente.class);
-            clientes = new HashSet<>(session.createQuery(cq).getResultList());
-            session.getTransaction().commit();
-        }
-        return clientes;
-    }
-
-    public static Cliente buscarClientePorDni(String dni) {
-        try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
-            session.beginTransaction();
-            CriteriaBuilder cb = session.getCriteriaBuilder();
-            CriteriaQuery<Cliente> cq = cb.createQuery(Cliente.class);
-            Root<Cliente> root = cq.from(Cliente.class);
-            cq.where(cb.equal(root.get("dni"), dni));
-            return session.createQuery(cq).getSingleResult();
+            cliente = session.createQuery("SELECT c FROM Cliente c WHERE c.dni = " + dni, Cliente.class).getSingleResult();
         } catch (NoResultException e) {
             e.printStackTrace();
         }
-        return null;
+        return cliente;
     }
 
-    public static void borrarCliente(String dni) {
+    public static void borrar(String dni) {
         try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
             session.beginTransaction();
-            Cliente cliente = buscarClientePorDni(dni);
+            Cliente cliente = buscarPorDni(dni);
             session.delete(cliente);
             session.getTransaction().commit();
         }
     }
 
-    public static void modificarDireccion(Cliente cliente) {
+    public static void actualizar(Cliente cliente) {
         try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
             session.beginTransaction();
             session.merge(cliente);

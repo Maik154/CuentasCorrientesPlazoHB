@@ -1,17 +1,18 @@
 package com.github.maik154.ejercicio5.Metodos;
 
-import com.github.maik154.ejercicio5.Pojos.CuentaPlazo;
-import com.github.maik154.ejercicio5.dao.ClienteDAO;
-import com.github.maik154.ejercicio5.dao.CuentaDAO;
 import com.github.maik154.ejercicio5.Pojos.Cliente;
 import com.github.maik154.ejercicio5.Pojos.CuentaCorriente;
+import com.github.maik154.ejercicio5.Pojos.CuentaPlazo;
 import com.github.maik154.ejercicio5.Pojos.Movimiento;
+import com.github.maik154.ejercicio5.dao.ClienteDAO;
+import com.github.maik154.ejercicio5.dao.CuentaPlazoDAO;
 import com.github.maik154.ejercicio5.dao.MovimientoDAO;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Alta {
-    public static void añadirCliente(Scanner sc) {
+    public static Cliente añadirCliente(Scanner sc) {
         System.out.println("Dni del cliente:");
         String dni = sc.nextLine();
         System.out.println("Nombre del cliente");
@@ -19,15 +20,16 @@ public class Alta {
         System.out.println("Direccion del cliente:");
         String direccion = sc.nextLine();
         Cliente cliente = new Cliente(dni, nombre, direccion);
-        ClienteDAO.añadirClienteHB(cliente);
+        ClienteDAO.guardar(cliente);
+        return ClienteDAO.buscarPorDni(dni);
     }
 
     public static void añadirMovimiento(Scanner sc) {
         System.out.println("Dame número de cuenta corriente: ");
         String numero = sc.nextLine();
-        CuentaCorriente cuentaCorriente = CuentaDAO.buscarCuentaCorriente(numero);
+        CuentaCorriente cuentaCorriente = CuentaPlazoDAO.buscarCuentaCorriente(numero);
         // CuentaCorriente cuentaCorriente = Busqueda.buscarCuentaCorriente(cuentas, numero);
-        CuentaDAO.añadirCuentaCorrienteHB(cuentaCorriente);
+        CuentaPlazoDAO.añadirCuentaCorrienteHB(cuentaCorriente);
         if (cuentaCorriente != null) {
             System.out.println("Dame cantidad del movimiento: ");
             float cantidad = Float.parseFloat(sc.nextLine());
@@ -37,19 +39,23 @@ public class Alta {
         }
     }
 
-
     public static void añadirCuentaPlazo(Scanner sc) {
         System.out.println("Nombre de la sucursal: ");
         String sucursal = sc.nextLine();
         System.out.println("Numero de la cuenta: ");
         String numero = sc.nextLine();
-        if (CuentaDAO.buscarCuentaPorNumero(numero) != null) {
+        if (CuentaPlazoDAO.buscarPorNumero(numero) != null) {
             System.out.println("Intereses de la cuenta: ");
             float saldoActual = Float.parseFloat(sc.nextLine());
             System.out.println("Cuál es el depósito plazo?: ");
             long depositoPlazo = Long.parseLong(sc.nextLine());
-            if (ClienteDAO.consultarClientesHb().isEmpty()) {
-                añadirCliente(sc);
+            if (ClienteDAO.buscarTodos().isEmpty()) {
+                Cliente cliente = añadirCliente(sc);
+                CuentaPlazo cuenta = new CuentaPlazo(sucursal, numero, saldoActual, depositoPlazo, LocalDate.of(2022, 8, 23));
+                cuenta.addCliente(cliente);
+                cliente.addCuenta(cuenta);
+                CuentaPlazoDAO.guardar(cuenta);
+                ClienteDAO.actualizar(cliente);
             } else {
                 System.out.println("""
                         Crear un cliente nuevo o usar uno existente?
@@ -59,17 +65,24 @@ public class Alta {
                 int op = Integer.parseInt(sc.nextLine());
                 if (op == 1) {
                     System.out.println("Dame dni");
-                    if (ClienteDAO.buscarClientePorDni(sc.nextLine()) != null) {
-                        CuentaDAO.buscarCuentaPlazo(numero);
+                    Cliente cliente = ClienteDAO.buscarPorDni(sc.nextLine());
+                    if (cliente != null) {
+                        CuentaPlazo cuenta = new CuentaPlazo(sucursal, numero, saldoActual, depositoPlazo, LocalDate.of(2022, 8, 23));
+                        cuenta.addCliente(cliente);
+                        cliente.addCuenta(cuenta);
+                        CuentaPlazoDAO.guardar(cuenta);
+                        ClienteDAO.actualizar(cliente);
                     }
                 } else if (op == 2) {
-                    añadirCliente(sc);
+                    Cliente cliente = añadirCliente(sc);
+                    CuentaPlazo cuenta = new CuentaPlazo(sucursal, numero, saldoActual, depositoPlazo, LocalDate.of(2022, 8, 23));
+                    cuenta.addCliente(cliente);
+                    cliente.addCuenta(cuenta);
+                    CuentaPlazoDAO.guardar(cuenta);
+                    ClienteDAO.actualizar(cliente);
                 } else {
                     System.out.println("Opción inválida.");
                 }
-                CuentaDAO.añadirCuentaPlazoHB(new CuentaPlazo(sucursal, numero, saldoActual, depositoPlazo , ));
-                //todo sumar a la fecha actual x días o años y meterla en fechaVencimiento de la cuenta
-
             }
         } else {
             System.out.println("Ese numero de cuenta ya existe");
@@ -79,7 +92,7 @@ public class Alta {
     public static void añadirCuentaCorriente(Scanner sc) {
         System.out.println("Dame el número de la cuenta: ");
         String numero = sc.nextLine();
-        if (CuentaDAO.buscarCuentaPorNumero(numero) == null) {
+        if (CuentaPlazoDAO.buscarPorNumero(numero) == null) {
             System.out.println("Dame nombre de sucursal: ");
             String sucursal = sc.nextLine();
             System.out.println("Dame el saldo actual de la cuenta: ");
@@ -87,19 +100,19 @@ public class Alta {
             int op = Menu.menuCliente(sc);
             Cliente cliente;
             if (op == 1) {
-                ClienteDAO.consultarClientesHb();
+                ClienteDAO.buscarTodos();
                 System.out.println("Dame dni");
                 String dni = sc.nextLine();
-                cliente = ClienteDAO.buscarClientePorDni(dni);
+                cliente = ClienteDAO.buscarPorDni(dni);
                 while (cliente == null) {
-                    cliente = ClienteDAO.buscarClientePorDni(dni);
+                    cliente = ClienteDAO.buscarPorDni(dni);
                 }
             } else {
                 cliente = añadirCliente(clientes);
                 // todo no entiendo este añadir cliente
 
             }
-            CuentaDAO.añadirCuentaHB(new CuentaCorriente(numero, sucursal, saldoActual));
+            CuentaPlazoDAO.añadirCuentaHB(new CuentaCorriente(numero, sucursal, saldoActual));
         } else {
             System.out.println("Este número de cuenta ya existe");
         }
