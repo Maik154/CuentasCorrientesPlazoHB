@@ -29,15 +29,15 @@ public class MovimientoDAO {
         }
     }
 
-    public static Movimiento buscarMovimientoPorNumeroDeCuenta(String numeroCta){
-        try(Session session = SessionFactoryUtil.getSessionFactory().openSession()){
+    public static Movimiento buscarMovimientoPorNumeroDeCuenta(String numeroCta) {
+        try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
             session.beginTransaction();
             CriteriaBuilder cb = session.getCriteriaBuilder();
             CriteriaQuery<Movimiento> cq = cb.createQuery(Movimiento.class);
             Root<Movimiento> root = cq.from(Movimiento.class);
             cq.where(cb.equal(root.get("numeroCta"), numeroCta));
             return session.createQuery(cq).getSingleResult();
-        }catch (NoResultException e){
+        } catch (NoResultException e) {
             e.printStackTrace();
         }
         return null;
