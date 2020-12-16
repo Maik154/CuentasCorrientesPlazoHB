@@ -12,16 +12,16 @@ public class Main {
             op = Menu.menuPrincipal(sc);
             switch (op) {
                 case 1:
-                    Alta.añadirCliente(sc);
+                    Alta.anadirCliente(sc);
                     break;
                 case 2:
-                    Alta.añadirCuentaCorriente(sc);
+                    Alta.anadirCuentaCorriente(sc);
                     break;
                 case 3:
                     Baja.borrarCuentaPlazo(sc);
                     break;
                 case 4:
-                    Alta.añadirMovimiento(sc);
+                    Alta.anadirMovimiento(sc);
                     break;
                 case 5:
                     Modificacion.modificarIntereses(sc);
@@ -30,13 +30,14 @@ public class Main {
                     Modificacion.modificarDireccion(sc);
                     break;
                 case 7:
-
+                    Baja.borrarCuentaDeUnCliente(sc);
                     //Borrar cuenta de un cliente
                     break;
                 case 8:
                     Consulta.cuentasDeCliente(sc);
                     break;
                 case 9:
+                    Consulta.movimientosDeUnaFecha(sc);
 //Consultar todos los movimientos de una cuenta de un día
                     break;
                 case 10:

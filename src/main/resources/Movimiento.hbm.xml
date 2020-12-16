@@ -4,9 +4,9 @@
 <hibernate-mapping package="com.github.maik154.ejercicio5.Pojos">
     <class name="Movimiento" table="MOVIMIENTO">
         <composite-id>
-            <key-many-to-one name="cuentaCorriente" column="NUMERO_CUENTA" class="CuentaCorriente"/>
-            <key-many-to-one name="fechaOperacion" column="FECHA_OPERACION"/>
-            <key-many-to-one name="hora" column="HORA"/>
+            <key-property name="fechaOperacion" column="FECHA_OPERACION" />
+            <key-property name="hora" column="HORA"/>
+            <key-many-to-one name="cuentaCorriente" class="Cuenta" />
         </composite-id>
         <property name="cliente" column="ID_CLIENTE"/>
         <property name="cantidad" column="CANTIDAD"/>

@@ -14,7 +14,7 @@ import java.time.LocalTime;
 import java.util.Scanner;
 
 public class Alta {
-    public static Cliente añadirCliente(Scanner sc) {
+    public static Cliente anadirCliente(Scanner sc) {
         System.out.println("Dni del cliente:");
         String dni = sc.nextLine();
         System.out.println("Nombre del cliente");
@@ -26,7 +26,7 @@ public class Alta {
         return ClienteDAO.buscarPorDni(dni);
     }
 
-    public static void añadirMovimiento(Scanner sc) {
+    public static void anadirMovimiento(Scanner sc) {
         System.out.println("Dame dni del cliente: ");
         String dni = sc.nextLine();
         System.out.println("Dame número de cuenta corriente: ");
@@ -66,7 +66,7 @@ public class Alta {
         }
     }
 
-    public static void añadirCuentaPlazo(Scanner sc) {
+    public static void anadirCuentaPlazo(Scanner sc) {
         System.out.println("Nombre de la sucursal: ");
         String sucursal = sc.nextLine();
         System.out.println("Numero de la cuenta: ");
@@ -77,18 +77,16 @@ public class Alta {
             System.out.println("Cuál es el depósito plazo?: ");
             long depositoPlazo = Long.parseLong(sc.nextLine());
             if (ClienteDAO.buscarTodos().isEmpty()) {
-                Cliente cliente = añadirCliente(sc);
+                Cliente cliente = anadirCliente(sc);
                 CuentaPlazo cuenta = new CuentaPlazo(sucursal, numero, saldoActual, depositoPlazo, LocalDate.of(2022, 8, 23));
                 cuenta.addCliente(cliente);
                 cliente.addCuenta(cuenta);
                 CuentaPlazoDAO.guardar(cuenta);
                 ClienteDAO.actualizar(cliente);
             } else {
-                System.out.println("""
-                        Crear un cliente nuevo o usar uno existente?
-                        1 - Usar uno existente
-                        2 - Crear uno nuevo
-                        """);
+                System.out.println("Crear un cliente nuevo o usar uno existente?\n" +
+                                   "1 - Usar uno existente\n" +
+                                   "2 - Crear uno nuevo\n");
                 int op = Integer.parseInt(sc.nextLine());
                 if (op == 1) {
                     System.out.println("Dame dni");
@@ -103,7 +101,7 @@ public class Alta {
                         System.out.println("El cliente no existe.");
                     }
                 } else if (op == 2) {
-                    Cliente cliente = añadirCliente(sc);
+                    Cliente cliente = anadirCliente(sc);
                     CuentaPlazo cuenta = new CuentaPlazo(sucursal, numero, saldoActual, depositoPlazo, LocalDate.of(2022, 8, 23));
                     cuenta.addCliente(cliente);
                     cliente.addCuenta(cuenta);
@@ -118,7 +116,7 @@ public class Alta {
         }
     }
 
-    public static void añadirCuentaCorriente(Scanner sc) {
+    public static void anadirCuentaCorriente(Scanner sc) {
         System.out.println("Dame el número de la cuenta: ");
         String numero = sc.nextLine();
         if (CuentaPlazoDAO.buscarPorNumero(numero) == null) {
@@ -142,7 +140,7 @@ public class Alta {
                     System.out.println("El cliente no existe.");
                 }
             } else if (op == 2) {
-                cliente = añadirCliente(sc);
+                cliente = anadirCliente(sc);
                 CuentaCorriente cuenta = new CuentaCorriente(numero, sucursal, saldoActual);
                 cuenta.addCliente(cliente);
                 cliente.addCuenta(cuenta);

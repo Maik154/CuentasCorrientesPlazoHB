@@ -10,7 +10,6 @@ public class Movimiento {
     private LocalDate fechaOperacion;
     private LocalTime hora;
     private char operacion;
-    private int id;
 
 
     public Movimiento(CuentaCorriente cuentaCorriente, Cliente cliente, float cantidad, LocalDate fechaOperacion, LocalTime hora, char operacion) {
@@ -21,10 +20,6 @@ public class Movimiento {
         this.fechaOperacion = fechaOperacion;
         this.hora = hora;
         this.operacion = operacion;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public Cliente getCliente() {

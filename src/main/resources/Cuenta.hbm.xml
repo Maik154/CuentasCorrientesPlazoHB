@@ -3,10 +3,8 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.github.maik154.ejercicio5.Pojos">
     <class name="Cuenta" table="CUENTA">
-        <id name="id" column="ID">
-            <generator class="increment"/>
-        </id>
-        <property name="numero" column="NUMERO" not-null="true" unique="true"/>
+
+        <id name="numero" column="NUMERO"/>
         <property name="sucursal" column="SUCURSAL"/>
         <set name="clientes" table="CLIENTE_CUENTA" inverse="true" cascade="all">
             <!--TODO Comprobar si el all funciona

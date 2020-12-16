@@ -38,20 +38,20 @@ public class Consulta {
         String numero = sc.nextLine();
         System.out.println("Primera fecha: " +
                 "\nDame año: ");
-        int año1 = Integer.parseInt(sc.nextLine());
+        int ano1 = Integer.parseInt(sc.nextLine());
         System.out.println("Dame mes(número): ");
         int mes1 = Integer.parseInt(sc.nextLine());
         System.out.println("Dame día: ");
         int dia1 = Integer.parseInt(sc.nextLine());
         System.out.println("Segunda fecha: " +
                 "\nDame año: ");
-        int año2 = Integer.parseInt(sc.nextLine());
+        int ano2 = Integer.parseInt(sc.nextLine());
         System.out.println("Dame mes(número): ");
         int mes2 = Integer.parseInt(sc.nextLine());
         System.out.println("Dame día: ");
         int dia2 = Integer.parseInt(sc.nextLine());
-        LocalDate primeraFecha = LocalDate.of(año1, mes1, dia1);
-        LocalDate segundaFecha = LocalDate.of(año2, mes2, dia2);
+        LocalDate primeraFecha = LocalDate.of(ano1, mes1, dia1);
+        LocalDate segundaFecha = LocalDate.of(ano2, mes2, dia2);
         if (primeraFecha.isBefore(segundaFecha)) {
             CuentaCorriente cuentaCorriente = CuentaCorrienteDAO.buscarPorNumero(numero);
             for (Movimiento m : cuentaCorriente.getMovimientos()) {
